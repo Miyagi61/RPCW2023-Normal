@@ -1,0 +1,23 @@
+A persistência de dados foi feita utilizando o MongoDB
+
+Inicialmente optei por adicionar um id a cada uma das entradas utilizando uma script python (update.py).
+
+Setup:
+mongoimport -d scienceJobs -c contracts --file emprego-cientifico2.json --jsonArray
+
+1.2) 
+1 - db.contracts.find().count()
+2 - db.contracts.find({NomeInstituicao:"Universidade do Minho"}).count()
+3 - db.contracts.distinct("AreaCNAEF")
+4 - db.contracts.aggregate([{$group:{_id: {$substr:["$DataInicioContrato",0,4]} ,count:{$sum:1}}}])
+5 - db.contracts.aggregate([{$group:{_id:"$NomeInstituicao", n_contratos: {$sum : 1}}}])
+
+1.3)
+A API foi criada com o express-generator
+
+No pedido GET /contracts/:id, o identificador é o id que adicionei Inicialmente
+No pedido GET /contracts?inst=AAA o AAA é o NIPC da instituição
+
+2)
+
+O serviço foi criado com o express-generator fazendo pedidos com o modulo axios à API desenvolvida anteriormente

@@ -4,20 +4,19 @@ var path = require('path');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var pagamentosRouter = require('./routes/pagamentos');
-var movimentosRouter = require('./routes/movimentos');
+var contractsRouter = require('./routes/contracts');
 
 var mongoose = require('mongoose')
 
 // uri for mongoDB
-var mongoDB = 'mongodb://127.0.0.1/CONDOMINIO';
+var mongoDB = 'mongodb://127.0.0.1/scienceJobs';
 
 mongoose.connect(mongoDB, {useNewUrlParser: true , useUnifiedTopology: true})
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error....'))
 
 db.once('open', () => {
-    console.log('Conexão ao MongoDB fixe')
+    console.log('Conexão ao MongoDB')
 })
 
 var app = express();
@@ -32,8 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter); // indexRouter is the router object exported by index.js
-app.use('/api/pagamentos', pagamentosRouter);
-app.use('/api/movimentos', movimentosRouter);
+app.use('/contracts', contractsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
